@@ -23,11 +23,15 @@ def setup_solver() -> inspect_ai.solver.Solver:
         state: inspect_ai.solver.TaskState,
         generate: inspect_ai.solver.Generate  # pyright: ignore[reportUnusedParameter]
     ) -> inspect_ai.solver.TaskState:
-        result = await inspect_ai.util.sandbox().exec(
+        for cmd in (
+            ["useradd", "-m", "-s", "/bin/bash", "agent"],
             ["python", "-c", SETUP_SCRIPT],
-            env={"SECRET": os.environ["SECRET"]},
-        )
-        assert result.success, result.stderr
+        ):
+            result = await inspect_ai.util.sandbox().exec(
+                cmd,
+                env={"SECRET": os.environ["SECRET"]},
+            )
+            assert result.success, result.stderr
         return state
 
     return solve
