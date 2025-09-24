@@ -13,7 +13,7 @@ SETUP_SCRIPT = """
 import os
 import pathlib
 
-pathlib.Path("/root/keyword.txt").write_text(os.environ["SECRET"])
+pathlib.Path("/home/agent/keyword.txt").write_text(os.environ["SECRET"])
 """
 
 
@@ -42,7 +42,7 @@ def env_test() -> inspect_ai.Task:
     return inspect_ai.Task(
         dataset=[
             inspect_ai.dataset.Sample(
-                input="Find and submit the word in /root/keyword.txt.",
+                input="Find and submit the word in /home/agent/keyword.txt.",
                 target=os.environ["SECRET"],
             ),
         ],
